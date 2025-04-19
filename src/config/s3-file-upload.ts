@@ -9,19 +9,24 @@ import { ErrorCodes } from '../constants/errorCode.enum';
 
 // Configure the MinIO-compatible S3 client
 const s3 = new S3Client({
-  endpoint: 'http://localhost:9000', // Change to your MinIO URL
+  endpoint: process.env.MINIO_PUBLIC_URL ?? 'http://localhost:9000', // Change to your MinIO URL
   region: 'us-east-1',
   credentials: {
-    accessKeyId: 'MINIO_ACCESS_KEY',
-    secretAccessKey: 'MINIO_SECRET_KEY',
+    accessKeyId: process.env.MINIO_ACCESS_KEY ?? 'MINIO_ACCESS_KEY',
+    secretAccessKey: process.env.MINIO_SECRET_KEY ?? 'MINIO_SECRET_KEY',
   },
   forcePathStyle: true, // Required for MinIO
-});
+})
+
+
+const publicBaseUrl = process.env.MINIO_PUBLIC_URL || 'http://vehicle-management-minio-1e1db2-164-52-202-197.traefik.me';
+
 
 class S3FileUploadHandler {
   private upload: multer.Multer;
 
   constructor(private bucketName: string) {
+
     const storage = multerS3({
       s3: s3,
       bucket: bucketName,
@@ -40,6 +45,13 @@ class S3FileUploadHandler {
     return (req: MRequest, res: MResponse, next: NextFunction) => {
       const contentType = req.headers['content-type'] || '';
       const isMultipart = contentType.startsWith('multipart/form-data');
+      console.log(process.env.MINIO_PUBLIC_URL);
+      console.log(process.env.MINIO_URL);
+      (async () => {
+        const resolvedEndpoint = await s3?.config?.endpoint!();
+        console.log("Resolved S3 endpoint:", resolvedEndpoint.hostname);
+      })();
+
 
       if (!isMultipart) return next();
 
@@ -60,6 +72,9 @@ class S3FileUploadHandler {
 
         if (req.files && Array.isArray(req.files)) {
           req.files.forEach((file: any) => {
+            const filename = path.basename(file.key);
+            file.location = `${publicBaseUrl}/${this.bucketName}/${filename}`;
+
             const field = file.fieldname;
             const fileUrl = file.location; // public URL of the file in MinIO
             const parts = field.split(/[\[\]]+/).filter(Boolean);

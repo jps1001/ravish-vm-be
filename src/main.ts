@@ -9,7 +9,7 @@ import { handleErrorMiddleware } from "./middleware/errorHandler";
 
 // Loading environment file based on the development environment
 const nodeEnv = process.env.NODE_ENV || "development";
-const envFile = `.env.${nodeEnv}`;
+const envFile = `.env`;
 dotenv.config({ path: path.resolve(__dirname, `../${envFile}`) });
 
 const app = express();
