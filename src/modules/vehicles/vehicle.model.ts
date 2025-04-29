@@ -10,8 +10,8 @@ const vehicleSchema = new mongoose.Schema<VehicleType>({
   VIN: { type: String, required: true },
   vendorId: { type: mongoose.Schema.Types.ObjectId, ref: "Vendor" },
   warehouseId: { type: mongoose.Schema.Types.ObjectId, ref: "Warehouse" },
-  rcFile: { type: String, required: true },
-  insuranceFile: { type: String, required: true },
+  rcFile: { type: String, required: false },
+  insuranceFile: { type: String, required: false },
 }, {
   timestamps: true
 });

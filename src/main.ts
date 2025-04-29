@@ -20,7 +20,6 @@ app.options('*', cors());
 
 app.use('/api/v1/uploads', express.static(path.resolve(__dirname, '../public/uploads')));
 
-
 app.use(express.json())
 
 app.use("/api", router)

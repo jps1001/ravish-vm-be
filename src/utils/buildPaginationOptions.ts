@@ -129,7 +129,7 @@ export function buildPaginationOptions(
 
       options.query = unflattenObject(filteredQuery);
 
-      console.log(options.query);
+      // console.log(options.query);
 
     } catch (err) {
       throw new Error('Invalid query JSON string');
@@ -177,7 +177,7 @@ export function buildPaginationOptions(
 
     options.aggregate = validPipelines;
   }
-  console.log(options);
+  // console.log(options);
 
   return options;
 }
