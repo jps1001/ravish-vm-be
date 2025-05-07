@@ -6,8 +6,9 @@ export interface VehicleType extends VehicleInput, mongoose.Document { }
 
 const vehicleSchema = new mongoose.Schema<VehicleType>({
   make: { type: String, required: true },
-  vehicleRCNumber: { type: String, required: true },
-  VIN: { type: String, required: true },
+  chasisNumber: { type: String, required: true, unique: true },
+  vehicleRCNumber: { type: String, required: true, unique: true },
+  VIN: { type: String },
   vendorId: { type: mongoose.Schema.Types.ObjectId, ref: "Vendor" },
   warehouseId: { type: mongoose.Schema.Types.ObjectId, ref: "Warehouse" },
   rcFile: { type: String, required: false },

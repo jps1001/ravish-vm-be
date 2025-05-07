@@ -52,6 +52,8 @@ class VehicleController {
   update = catchAsync(async (req: MRequest, res: MResponse) => {
     const vehicleId = req.params._id;
     const parsedPayload = vehiclePartialSchema.parse(req.body);
+    console.log(req.body);
+    console.log(parsedPayload);
     const vehicle = await this.vehicleService.update(vehicleId, parsedPayload);
     const response = SuccessResponseSchema.parse({
       message: "Vehicle updated successfully",

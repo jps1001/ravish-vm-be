@@ -3,8 +3,9 @@ import { z } from 'zod';
 
 export const vehicleSchema = z.object({
   make: z.string().min(1, 'Make is required'),
+  chasisNumber: z.string(),
   vehicleRCNumber: z.string().min(1, 'Vehicle RC number is required'),
-  VIN: z.string().min(1, 'VIN is required'),
+  VIN: z.string().optional(),
   rcFile: z.string().optional(),
   insuranceFile: z.string().optional(),
   vendorId: z.string()

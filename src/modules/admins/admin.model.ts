@@ -6,9 +6,9 @@ export interface AdminUserType extends AdminUserInput, mongoose.Document { }
 
 const adminSchema = new mongoose.Schema<AdminUserType>({
   name: { type: String, required: true },
-  employeeId: { type: String, required: true },
+  employeeId: { type: String, required: true, unique: true },
   mobileNumber: { type: String, required: true, unique: true },
-  aadharNumber: { type: String, required: true },
+  aadharNumber: { type: String, required: true, unique: true },
   aadharFile: { type: String },
   type: { type: String, required: true, default: 'user' },
   initialPasswordReset: { type: Boolean, default: false },
